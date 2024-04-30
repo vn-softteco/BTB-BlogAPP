@@ -6,6 +6,7 @@ import { Box, Grid, Button } from '@mui/material'
 import { BlogPostListItemCard } from '@/components/BlogPost'
 import { useNavigate } from 'react-router-dom'
 import { ROUTES } from '@/utils/constants'
+import { DefaultLayout } from '@/layouts/DefaultLayout'
 
 type BlogPostsPageData = {
     blogPosts: BlogPostListView[]
@@ -63,25 +64,27 @@ const BlogPostsPage = (): JSX.Element => {
   }, [allBlogPosts])
 
   return (
-    <Box sx={styles.mainBox}>
-      <Box sx={styles.cardsBox} >
-          <Grid sx={styles.grid} container spacing={1.5}>
-            {blogPostsData.blogPosts.map((blogPost: BlogPostListView) => (
-              <Box key={blogPost.id} sx={styles.itemCard}>
-                <BlogPostListItemCard {...blogPost}></BlogPostListItemCard>
-              </Box>
-            ))}
-          </Grid>
+    <DefaultLayout>
+      <Box sx={styles.mainBox}>
+        <Box sx={styles.cardsBox} >
+            <Grid sx={styles.grid} container spacing={1.5}>
+              {blogPostsData.blogPosts.map((blogPost: BlogPostListView) => (
+                <Box key={blogPost.id} sx={styles.itemCard}>
+                  <BlogPostListItemCard {...blogPost}></BlogPostListItemCard>
+                </Box>
+              ))}
+            </Grid>
+        </Box>
+        <Box sx={styles.addButton}>
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={() => navigate(ROUTES.ADD_BLOGPOST)}>
+              Add Post
+          </Button>
+        </Box>
       </Box>
-      <Box sx={styles.addButton}>
-        <Button
-          variant="contained"
-          color="primary"
-          onClick={() => navigate(ROUTES.ADD_BLOGPOST)}>
-            Add Post
-        </Button>
-      </Box>
-    </Box>
+    </DefaultLayout>
   );
 }
 

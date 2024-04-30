@@ -7,7 +7,8 @@ import { UpdateCommentFormType, Comment } from '@/types'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { UpdateCommentForm } from '@/components/Auth'
 import { ROUTES } from '@/utils/constants'
-import { useParams } from 'react-router';
+import { useParams } from 'react-router'
+import { DefaultLayout } from '@/layouts/DefaultLayout'
 
 const schema = yup.object().shape({
     text: yup
@@ -50,14 +51,14 @@ const AddOrUpdateCommentPage = () => {
     }
 
     return (
-      <>
+      <DefaultLayout>
           <UpdateCommentForm
               control={control}
               handleSubmit={handleSubmit}
               onSubmit={onSubmit}
               loading={loading}
           />
-      </>
+      </DefaultLayout>
     )
 }
 

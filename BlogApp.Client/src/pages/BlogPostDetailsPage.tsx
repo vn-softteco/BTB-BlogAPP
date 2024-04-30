@@ -7,7 +7,7 @@ import { BlogPostDetailsComponent } from '@/components/BlogPost'
 import { useParams } from 'react-router'
 import { useNavigate } from 'react-router-dom'
 import { ROUTES } from '@/utils/constants'
-
+import { DefaultLayout } from '@/layouts/DefaultLayout'
 
 const BlogPostsPage = (): JSX.Element => {
 
@@ -43,13 +43,13 @@ const BlogPostsPage = (): JSX.Element => {
     }
 
     return (
-        <Box >
+        <DefaultLayout >
             { blogPostsDetailsData && 
                 <Box>                    
                     <BlogPostDetailsComponent {...blogPostsDetailsData} handleBlogPostDelete={handleBlogPostDelete}></BlogPostDetailsComponent>
                 </Box>
             }
-        </Box>
+        </DefaultLayout>
         
     );
 }

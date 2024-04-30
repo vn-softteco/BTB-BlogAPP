@@ -8,6 +8,7 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { getApiErrorMsg } from '@/utils/error.utils'
 import { ROUTES } from '@/utils/constants'
 import { UpdateBlogPostForm } from '@/components/Auth'
+import { DefaultLayout } from '@/layouts/DefaultLayout'
 
 const schema = yup.object().shape({
     title: yup
@@ -62,14 +63,14 @@ const UpdateBlogPostPage = () => {
     }
 
   return (
-    <>
+    <DefaultLayout>
         <UpdateBlogPostForm
             control={control}
             handleSubmit={handleSubmit}
             onSubmit={onSubmit}
             loading={loading}
         />
-    </>
+    </DefaultLayout>
   )
 }
 
