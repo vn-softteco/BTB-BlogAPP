@@ -17,4 +17,6 @@ export const API_ENDPOINTS = {
     ADD_BLOG_POST: 'blogpost',
     ADD_COMMENT: 'comment',
     GET_ALL_BLOG_POST_BY_ID: (id: string) => `/blogpost/${id}`,
+    DELETE_BLOG_POST_BY_ID: (id: string) => `/blogpost/${id}`,
+    DELETE_COMMENT_BY_ID: (id: string) => `/comment/${id}`,
 }

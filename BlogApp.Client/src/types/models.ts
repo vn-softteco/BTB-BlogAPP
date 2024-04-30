@@ -19,14 +19,16 @@ export type BlogPostDetails = {
   content: string
   creationDate: string
   createdByFullName: string
-  comments: Comment[]
+  comments: Comment[],
+  handleBlogPostDelete: (id: string) => void
 }
 
 export type Comment = {
   id: string
   text: string
   creationDate: string
-  createdByFullName: string
+  createdByFullName: string,
+  handleCommentDelete: (id: string) => void
 }
 
 export type AddCommentType = {

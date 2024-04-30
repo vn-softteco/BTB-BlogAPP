@@ -41,8 +41,9 @@ const CommentDetails = (comment: Comment): JSX.Element => {
                 </CardContent>
                 <CardActions sx={styles.actionButton}>
                     <Button
-                        variant="contained"                        
-                        onClick={() => {}}
+                        variant='contained'
+                        color='error'                    
+                        onClick={() => comment.handleCommentDelete(comment.id)}
                     >
                         Delete
                     </Button>

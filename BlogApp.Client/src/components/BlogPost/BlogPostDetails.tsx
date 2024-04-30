@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom'
-
+import { useState, useEffect } from 'react'
 import {
     Card,
     CardHeader,
@@ -14,13 +14,14 @@ import { BlogPostDetails, Comment } from '@/types'
 import { Styles } from '@/types'
 import { red } from '@mui/material/colors'
 import CommentDetails from '@/components/Comment/CommentsDetails'
+import { CommentService } from '@/services'
 
 const styles: Styles = {
     mainbox: {
         display: 'flex',
         flexDirection: 'column',
         mt: 10,
-        mb: 5
+        mb: 5,
     },
     blogpost: {
         display: 'inline',
@@ -52,6 +53,18 @@ const styles: Styles = {
 
 const BlogPostDetailsComponent = (blogPost: BlogPostDetails): JSX.Element => {
     const navigate = useNavigate()
+    const [comments, setComments] =
+        useState<Comment[]>(blogPost.comments)
+
+    const handleCommentDelete = async(id: string) => {
+        const res = await CommentService.deleteComment(id);
+        
+        if (res.status === 200 && res.data.success) {
+            setComments(prevState => (
+                prevState.filter(item => item.id !== id)
+            ));
+        }
+    }    
   
     return (
         <Box sx={styles.mainbox}>
@@ -65,7 +78,14 @@ const BlogPostDetailsComponent = (blogPost: BlogPostDetails): JSX.Element => {
                 </CardContent>
                 <CardActions sx={styles.actionButton}>
                     <Button
-                        variant="contained"                        
+                        variant="contained" 
+                        color="error"                    
+                        onClick={() => blogPost.handleBlogPostDelete(blogPost.id)}
+                    >
+                        Delete Blog Post
+                    </Button>
+                    <Button
+                        variant="contained"                  
                         onClick={() => navigate(ROUTES.POST_ADD_COMMENT(blogPost.id))}
                     >
                         Add comment
@@ -73,9 +93,9 @@ const BlogPostDetailsComponent = (blogPost: BlogPostDetails): JSX.Element => {
                 </CardActions>
             </Card>
             <Grid sx={styles.commentGrid} container spacing={1.5}>
-                {blogPost.comments.map((comment: Comment) => (
+                {comments.map((comment: Comment) => (
                     <Box sx={styles.itemCard}>
-                        <CommentDetails {...comment}></CommentDetails>
+                        <CommentDetails {...comment} handleCommentDelete={handleCommentDelete}></CommentDetails>
                     </Box>
                 ))}
             </Grid>

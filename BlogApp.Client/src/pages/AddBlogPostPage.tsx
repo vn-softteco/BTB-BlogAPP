@@ -45,24 +45,10 @@ const AddBlogPostPage = () => {
         }
 
         } catch (error) {
-        const errMsg = getApiErrorMsg(error)
-        switch (errMsg) {
-            case 'Incorrect password!':
-            setError('password', {
-                type: 'manual',
-                message: errMsg,
-            })
-            break
-            case "User doesn't exist!":
-            setError('email', {
-                type: 'manual',
-                message: errMsg,
-            })
-            break
-            default:
-            console.error("smth went wrong")
-            break
-        }
+            const errMsg = getApiErrorMsg(error)
+            switch (errMsg) {
+                // TODO: error handling
+            }
         }
 
         setLoading(false)

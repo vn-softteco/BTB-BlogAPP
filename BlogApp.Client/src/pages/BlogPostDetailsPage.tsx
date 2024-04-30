@@ -4,10 +4,13 @@ import { useQueries } from '@tanstack/react-query'
 import { BlogPostDetails } from '@/types'
 import { Box } from '@mui/material'
 import { BlogPostDetailsComponent } from '@/components/BlogPost'
-import { useParams } from 'react-router';
+import { useParams } from 'react-router'
+import { useNavigate } from 'react-router-dom'
+import { ROUTES } from '@/utils/constants'
 
 
 const BlogPostsPage = (): JSX.Element => {
+    const navigate = useNavigate()
     const [blogPostsDetailsData, setBlogPostData] =
         useState<BlogPostDetails | null>(null)
 
@@ -31,13 +34,20 @@ const BlogPostsPage = (): JSX.Element => {
             setBlogPostData(blogPostWithComments)
         }
     }, [blogPostWithComments])
-      
+
+    const handleBlogPostDelete = async(id: string) => {
+        const res = await BlogPostService.deleteBlogPost(id);
+        
+        if (res.status === 200 && res.data.success) {
+            navigate(ROUTES.GET_BLOGPOSTs, { replace: true })        
+        }
+    }
 
     return (
         <Box >
             { blogPostsDetailsData && 
                 <Box>                    
-                    <BlogPostDetailsComponent {...blogPostsDetailsData}></BlogPostDetailsComponent>
+                    <BlogPostDetailsComponent {...blogPostsDetailsData} handleBlogPostDelete={handleBlogPostDelete}></BlogPostDetailsComponent>
                 </Box>
             }
         </Box>

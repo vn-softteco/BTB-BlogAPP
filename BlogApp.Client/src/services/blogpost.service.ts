@@ -16,8 +16,13 @@ const addBlogPost = async (data: AddBlogPostFormType) => {
     return await API.post(API_ENDPOINTS.ADD_BLOG_POST,  data )
 }
 
+const deleteBlogPost = async (id: string) => {
+    return await API.delete(API_ENDPOINTS.DELETE_BLOG_POST_BY_ID(id))
+}
+
 export default {
     getAllBlogPosts,
     getBlogPostById,
-    addBlogPost
+    addBlogPost,
+    deleteBlogPost
 }

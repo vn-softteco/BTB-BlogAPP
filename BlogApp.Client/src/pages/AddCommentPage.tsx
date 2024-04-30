@@ -5,7 +5,6 @@ import { useNavigate } from 'react-router-dom'
 import { CommentService } from '@/services'
 import { AddCommentFormType, AddCommentType } from '@/types'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { getApiErrorMsg } from '@/utils/error.utils'
 import { AddCommentForm } from '@/components/Auth'
 import { ROUTES } from '@/utils/constants'
 import { useParams } from 'react-router';
@@ -40,7 +39,6 @@ const AddCommentPage = () => {
     const res = await CommentService.addComment(comment)
 
     if (res.status === 200 && res.data.success) {
-        console.log("SUCCESS")
         setLoading(false)
         navigate(ROUTES.GET_BLOGPOST_BY_ID(id!))
     }
