@@ -1,9 +1,13 @@
 import { API_ENDPOINTS } from '@/utils/constants'
 import { API } from '@/utils/api'
-import { AddCommentType } from '@/types'
+import { AddOrUpdateCommentFormType } from '@/types'
 
-const addComment = async (data: AddCommentType) => {
+const addComment = async (data: AddOrUpdateCommentFormType) => {
     return await API.post(API_ENDPOINTS.ADD_COMMENT,  data )
+}
+
+const updateComment = async (data: AddOrUpdateCommentFormType) => {
+    return await API.put(API_ENDPOINTS.UPDATE_COMMENT,  data )
 }
 
 const deleteComment = async (id: string) => {
@@ -12,5 +16,6 @@ const deleteComment = async (id: string) => {
 
 export default {
     addComment,
-    deleteComment
+    deleteComment,
+    updateComment
 }

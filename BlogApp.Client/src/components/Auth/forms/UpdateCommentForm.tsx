@@ -1,14 +1,13 @@
 import { Button, Box } from '@mui/material'
-import { FormProps, AddCommentFormProps } from '@/types'
+import { FormProps, UpdateCommentFormType } from '@/types'
 import { TextInputController } from '@/components/Auth'
-
 
 const AddCommentForm = ({
   control,
   handleSubmit,
   onSubmit,
   loading = false,
-}: FormProps<AddCommentFormProps>) => {
+}: FormProps<UpdateCommentFormType>) => {
   return (
     <Box
       component="form"
@@ -31,7 +30,7 @@ const AddCommentForm = ({
         variant="contained"
         disabled={loading}
       >
-        Add comment
+        Update comment
       </Button>
     </Box>
   )

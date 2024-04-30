@@ -27,8 +27,7 @@ export type Comment = {
   id: string
   text: string
   creationDate: string
-  createdByFullName: string,
-  handleCommentDelete: (id: string) => void
+  createdByFullName: string
 }
 
 export type AddCommentType = {

@@ -6,7 +6,9 @@ import { SignInPage,
     BlogPostsPage,
     BlogPostsDetailsPage,
     AddBlogPostPage,
-    AddCommentPage
+    UpdateBlogPostPage,
+    AddCommentPage,
+    UpdateCommentPage
 } from '@/pages'
 
 
@@ -36,8 +38,16 @@ const router = createBrowserRouter([
                 element: <AddBlogPostPage />,
             },
             {
+                path: ROUTES.EDIT_BLOGPOST,
+                element: <UpdateBlogPostPage />,
+            },
+            {
                 path: ROUTES.ADD_COMMENT,
                 element: <AddCommentPage />,
+            },
+            {
+                path: ROUTES.UPDATE_COMMENT,
+                element: <UpdateCommentPage />,
             },
         ],
 

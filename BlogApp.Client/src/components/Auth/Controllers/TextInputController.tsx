@@ -19,7 +19,7 @@ interface TextInputController<T extends object> {
     required = false,
     sx,
     small,
-    name,
+    name
   }: TextInputController<T>) => {
     return (
       <Controller

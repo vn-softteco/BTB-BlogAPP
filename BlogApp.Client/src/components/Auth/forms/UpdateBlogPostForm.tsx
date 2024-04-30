@@ -1,13 +1,13 @@
 import { Button, Box } from '@mui/material'
-import { FormProps, AddBlogPostFormType } from '@/types'
+import { FormProps, UpdateBlogPostFormType } from '@/types'
 import { TextInputController } from '@/components/Auth'
 
 const AddBlogPostForm = ({
-  control,
+  control, 
   handleSubmit,
   onSubmit,
   loading = false
-}: FormProps<AddBlogPostFormType>) => {
+}: FormProps<UpdateBlogPostFormType>) => {
   return (
     <Box
       component="form"
@@ -39,7 +39,7 @@ const AddBlogPostForm = ({
             variant="contained"
             disabled={loading}
         >
-            Add Blog Post
+            Update Blog Post
         </Button>
     </Box>
   )

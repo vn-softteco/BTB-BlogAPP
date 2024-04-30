@@ -10,7 +10,6 @@ import {
 
 import { ROUTES } from '@/utils/constants'
 import { BlogPostListView } from '@/types'
-
 import { Styles } from '@/types'
 
 const styles: Styles = {
@@ -35,6 +34,14 @@ const BlogPostListItemCard = (blogPost: BlogPostListView): JSX.Element => {
         </CardContent>
   
         <CardActions>
+          <Button
+            variant="contained"
+            fullWidth
+            color='secondary'     
+            onClick={() => navigate(ROUTES.EDIT_BLOGPOST, {state : {...blogPost}})}
+          >
+            Edit
+          </Button>
           <Button
             variant="contained"
             fullWidth

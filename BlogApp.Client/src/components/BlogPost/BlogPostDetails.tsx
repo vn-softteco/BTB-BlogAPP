@@ -52,6 +52,8 @@ const styles: Styles = {
 }
 
 const BlogPostDetailsComponent = (blogPost: BlogPostDetails): JSX.Element => {
+    console.log("BlogPostDetailsComponent BEGINNING")
+    console.log(blogPost)
     const navigate = useNavigate()
     const [comments, setComments] =
         useState<Comment[]>(blogPost.comments)
@@ -64,7 +66,13 @@ const BlogPostDetailsComponent = (blogPost: BlogPostDetails): JSX.Element => {
                 prevState.filter(item => item.id !== id)
             ));
         }
-    }    
+    }
+
+    useEffect(() => {
+        if (!!blogPost) {
+            setComments(blogPost.comments)
+        }
+    }, [blogPost])
   
     return (
         <Box sx={styles.mainbox}>
@@ -86,7 +94,7 @@ const BlogPostDetailsComponent = (blogPost: BlogPostDetails): JSX.Element => {
                     </Button>
                     <Button
                         variant="contained"                  
-                        onClick={() => navigate(ROUTES.POST_ADD_COMMENT(blogPost.id))}
+                        onClick={() => navigate(ROUTES.ROUTE_ADD_COMMENT(blogPost.id))}
                     >
                         Add comment
                     </Button>
@@ -94,8 +102,8 @@ const BlogPostDetailsComponent = (blogPost: BlogPostDetails): JSX.Element => {
             </Card>
             <Grid sx={styles.commentGrid} container spacing={1.5}>
                 {comments.map((comment: Comment) => (
-                    <Box sx={styles.itemCard}>
-                        <CommentDetails {...comment} handleCommentDelete={handleCommentDelete}></CommentDetails>
+                    <Box key={comment.id} sx={styles.itemCard}>
+                        <CommentDetails comment={comment} blogPostId={blogPost.id} handleCommentDelete={handleCommentDelete}></CommentDetails>
                     </Box>
                 ))}
             </Grid>

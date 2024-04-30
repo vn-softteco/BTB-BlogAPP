@@ -1,6 +1,6 @@
 import { API_ENDPOINTS } from '@/utils/constants'
 import { API } from '@/utils/api'
-import { BlogPostListView, BlogPostDetails, ApiResponse, AddBlogPostFormType } from '@/types'
+import { BlogPostListView, BlogPostDetails, ApiResponse, AddOrUpdateBlogPostFormType } from '@/types'
 
 const getAllBlogPosts = async () => {
     const response =  await API.get<ApiResponse<BlogPostListView[]>>(API_ENDPOINTS.GET_ALL_BLOG_POSTS)
@@ -12,8 +12,12 @@ const getBlogPostById = async (id: string): Promise<BlogPostDetails> => {
     return response.data.data
 }
 
-const addBlogPost = async (data: AddBlogPostFormType) => {
+const addBlogPost = async (data: AddOrUpdateBlogPostFormType) => {
     return await API.post(API_ENDPOINTS.ADD_BLOG_POST,  data )
+}
+
+const updateBlogPost = async (data: AddOrUpdateBlogPostFormType) => {
+    return await API.put(API_ENDPOINTS.UPDATE_BLOG_POST,  data )
 }
 
 const deleteBlogPost = async (id: string) => {
@@ -24,5 +28,6 @@ export default {
     getAllBlogPosts,
     getBlogPostById,
     addBlogPost,
-    deleteBlogPost
+    deleteBlogPost,
+    updateBlogPost
 }

@@ -10,6 +10,7 @@ import { ROUTES } from '@/utils/constants'
 
 
 const BlogPostsPage = (): JSX.Element => {
+
     const navigate = useNavigate()
     const [blogPostsDetailsData, setBlogPostData] =
         useState<BlogPostDetails | null>(null)
@@ -29,8 +30,6 @@ const BlogPostsPage = (): JSX.Element => {
       
     useEffect(() => {
         if (!!blogPostWithComments) {
-            console.log('setBlogPostData')
-            console.log(blogPostWithComments)
             setBlogPostData(blogPostWithComments)
         }
     }, [blogPostWithComments])

@@ -1,13 +1,13 @@
 import * as yup from 'yup'
 import { useState } from 'react'
 import { useForm, SubmitHandler, DefaultValues } from 'react-hook-form'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useLocation } from 'react-router-dom'
 import { BlogPostService } from '@/services'
-import { AddBlogPostFormType } from '@/types'
+import { UpdateBlogPostFormType, BlogPostListView } from '@/types'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { getApiErrorMsg } from '@/utils/error.utils'
 import { ROUTES } from '@/utils/constants'
-import { AddBlogPostForm } from '@/components/Auth'
+import { UpdateBlogPostForm } from '@/components/Auth'
 
 const schema = yup.object().shape({
     title: yup
@@ -20,25 +20,32 @@ const schema = yup.object().shape({
   })
   
 
-const AddBlogPostPage = () => {
+const UpdateBlogPostPage = () => {
     const [loading, setLoading] = useState<boolean>(false)
     const navigate = useNavigate()
+    const { state } = useLocation()
+    const blogPost = {...state} as BlogPostListView
 
-    const defaultValues: DefaultValues<AddBlogPostFormType> = {
-        title: '',
-        content: ''
+    const defaultValues: DefaultValues<UpdateBlogPostFormType> = {
+        title: blogPost.title,
+        content: blogPost.content,
+        id:  blogPost.id,
     }
+
+    const isUpdate = blogPost && !!blogPost.id
   
-    const { handleSubmit, control } = useForm<AddBlogPostFormType>({
+    const { handleSubmit, control } = useForm<UpdateBlogPostFormType>({
         defaultValues,
         resolver: yupResolver(schema),
     })
 
-    const onSubmit: SubmitHandler<AddBlogPostFormType> = async (data) => {
+    const onSubmit: SubmitHandler<UpdateBlogPostFormType> = async (data) => {
         setLoading(true)
 
         try {
-            const res = await BlogPostService.addBlogPost(data)
+            const res = isUpdate
+                ? await BlogPostService.updateBlogPost(data)
+                : await BlogPostService.addBlogPost(data)
 
             if (res.status === 200 && res.data.success) {
                 navigate(ROUTES.GET_BLOGPOSTs, { replace: true })        
@@ -56,7 +63,7 @@ const AddBlogPostPage = () => {
 
   return (
     <>
-        <AddBlogPostForm
+        <UpdateBlogPostForm
             control={control}
             handleSubmit={handleSubmit}
             onSubmit={onSubmit}
@@ -66,4 +73,4 @@ const AddBlogPostPage = () => {
   )
 }
 
-export default AddBlogPostPage
+export default UpdateBlogPostPage

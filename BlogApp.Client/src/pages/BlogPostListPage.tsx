@@ -67,7 +67,7 @@ const BlogPostsPage = (): JSX.Element => {
       <Box sx={styles.cardsBox} >
           <Grid sx={styles.grid} container spacing={1.5}>
             {blogPostsData.blogPosts.map((blogPost: BlogPostListView) => (
-              <Box sx={styles.itemCard}>
+              <Box key={blogPost.id} sx={styles.itemCard}>
                 <BlogPostListItemCard {...blogPost}></BlogPostListItemCard>
               </Box>
             ))}
