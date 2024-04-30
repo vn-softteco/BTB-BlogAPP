@@ -8,7 +8,8 @@ import { SignInPage,
     AddBlogPostPage,
     UpdateBlogPostPage,
     AddCommentPage,
-    UpdateCommentPage
+    UpdateCommentPage,
+    SignUpPage
 } from '@/pages'
 
 
@@ -16,6 +17,10 @@ const router = createBrowserRouter([
     {
         path: ROUTES.SIGN_IN,
         element: <SignInPage />
+    },
+    {
+        path: ROUTES.SIGN_UP,
+        element: <SignUpPage />
     },
     {
         element: (

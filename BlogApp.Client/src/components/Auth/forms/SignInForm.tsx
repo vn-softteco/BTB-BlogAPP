@@ -1,5 +1,5 @@
 import { Button, Box } from '@mui/material'
-import { SignInFormProps } from '@/types'
+import { FormProps, SignInFormType } from '@/types'
 import { TextInputController, PasswordController } from '@/components/Auth'
 
 const SignInForm = ({
@@ -7,7 +7,7 @@ const SignInForm = ({
   handleSubmit,
   onSubmit,
   loading = false,
-}: SignInFormProps) => {
+}: FormProps<SignInFormType>) => {
   return (
     <Box
       component="form"

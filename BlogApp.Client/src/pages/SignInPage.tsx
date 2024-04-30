@@ -7,87 +7,76 @@ import { SignInFormType } from '@/types'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { getApiErrorMsg } from '@/utils/error.utils'
 import { LoginForm } from '@/components/Auth'
-import { DefaultLayout } from '@/layouts/DefaultLayout'
+import { ROUTES } from '@/utils/constants'
 
 const schema = yup.object().shape({
     email: yup
       .string()
+      .email()
       .required('Email is required'),
-    password: yup.string().required('Password is required'),
+    password: yup
+      .string()
+      .required('Password is required'),
   })
 
   const defaultValues: DefaultValues<SignInFormType> = {
     email: '',
     password: '',
   }
-  
 
 const LoginPage = () => {
     const [loading, setLoading] = useState<boolean>(false)
-    //const [currentId, setCurrentId] = useState<string>('')
-    const navigate = useNavigate()
-    const location = useLocation()
-  
-  const from = location.state?.from?.pathname
+    const navigate = useNavigate()    
+    
+    const { handleSubmit, control, setError } = useForm<SignInFormType>({
+      defaultValues,
+      resolver: yupResolver(schema),
+    })
 
-  useEffect(() => {
-    const token = TokenService.getAccessToken()
+    const onSubmit: SubmitHandler<SignInFormType> = async (data) => {
+      setLoading(true)
 
-    if (token) navigate(from, { replace: true })
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+      try {
+        const res = await AuthService.login(data)
 
-  
-  const { handleSubmit, control, setError } = useForm<SignInFormType>({
-    defaultValues,
-    resolver: yupResolver(schema),
-  })
+        if (res.status === 200 && res.data.success) {
+          TokenService.setToken(res.data.data.token)
+          navigate(ROUTES.INITIAL_ROUTE, { replace: true })
+        }
 
-  const onSubmit: SubmitHandler<SignInFormType> = async (data) => {
-    setLoading(true)
-
-    try {
-      const res = await AuthService.login(data)
-
-      if (res.status === 200 && res.data.success) {
-        TokenService.setToken(res.data.data.token)
-        //setCurrentId(res.data.data.userId)
-        navigate(from, { replace: true })        
+        } catch (error) {
+          const errMsg = getApiErrorMsg(error)
+          switch (errMsg) {
+            case 'Incorrect password!':
+              setError('password', {
+                type: 'manual',
+                message: errMsg,
+              })
+              break
+            case "User doesn't exist!":
+              setError('email', {
+                type: 'manual',
+                message: errMsg,
+              })
+              break
+            default:
+              console.error("smth went wrong")
+              break
+          }
       }
-
-    } catch (error) {
-      const errMsg = getApiErrorMsg(error)
-      switch (errMsg) {
-        case 'Incorrect password!':
-          setError('password', {
-            type: 'manual',
-            message: errMsg,
-          })
-          break
-        case "User doesn't exist!":
-          setError('email', {
-            type: 'manual',
-            message: errMsg,
-          })
-          break
-        default:
-          console.error("smth went wrong")
-          break
-      }
-    }
 
     setLoading(false)
   }
 
   return (
-    <DefaultLayout>
+    <>
         <LoginForm
             control={control}
             handleSubmit={handleSubmit}
             onSubmit={onSubmit}
             loading={loading}
         />
-    </DefaultLayout>
+    </>
   )
 }
 

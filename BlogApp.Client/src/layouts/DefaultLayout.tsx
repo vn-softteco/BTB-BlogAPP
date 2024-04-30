@@ -1,8 +1,8 @@
 import Header from '@/components/Header/Header'
 
-export const DefaultLayout:React.FC<React.PropsWithChildren<unknown>> = ({ children }) => (
+export const DefaultLayout = ( props: { children: JSX.Element | null } ): JSX.Element => (
     <>
         <Header />
-        {children}
+        {props.children}
     </>
 );

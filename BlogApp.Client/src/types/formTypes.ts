@@ -3,17 +3,11 @@ export type SignInFormType = {
     password: string
 }
 
-export type SignUpAccountFormType = {
+export type SignUpFormType = {
     email: string,
     password: string,
     firstName: string,
     lastName: string,
-}
-
-export type AddOrUpdateBlogPostFormType = {
-    id?: string,
-    title: string,
-    content: string
 }
 
 export type AddBlogPostFormType = {
@@ -33,13 +27,7 @@ export type AddCommentFormType = {
 }
 
 export type UpdateCommentFormType = {
-    id: string
-    blogPostId: string,
-    text: string
-}
-
-export type AddOrUpdateCommentFormType = {
-    id?: string,
+    id: string,
     blogPostId: string,
     text: string
 }

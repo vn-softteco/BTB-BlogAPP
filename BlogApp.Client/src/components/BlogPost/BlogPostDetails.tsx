@@ -52,8 +52,6 @@ const styles: Styles = {
 }
 
 const BlogPostDetailsComponent = (blogPost: BlogPostDetails): JSX.Element => {
-    console.log("BlogPostDetailsComponent BEGINNING")
-    console.log(blogPost)
     const navigate = useNavigate()
     const [comments, setComments] =
         useState<Comment[]>(blogPost.comments)

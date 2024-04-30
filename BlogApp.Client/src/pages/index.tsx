@@ -1,4 +1,5 @@
 export { default as SignInPage } from './SignInPage'
+export { default as SignUpPage } from './SignUpPage'
 export { default as RequireAuth } from './RequireAuth'
 export { default as BlogPostsPage } from './BlogPostListPage'
 export { default as BlogPostsDetailsPage } from './BlogPostDetailsPage'

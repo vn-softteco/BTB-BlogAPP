@@ -3,7 +3,7 @@ import { API } from '@/utils/api'
 
 import {
     SignInFormType,
-    SignUpAccountFormType
+    SignUpFormType
   } from '@/types/formTypes'
 
 type LoginResponse = {
@@ -22,7 +22,7 @@ type LoginResponse = {
     })
   }
 
-  const signup = async (data: SignUpAccountFormType) => {
+  const signup = async (data: SignUpFormType) => {
     return await API.post(API_ENDPOINTS.SIGN_UP, data)
   }
 
