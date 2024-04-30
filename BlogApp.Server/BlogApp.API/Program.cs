@@ -122,14 +122,17 @@ services.Configure<RouteOptions>(options =>
 	options.LowercaseUrls = true;
 });
 
-services.AddCors(policyBuilder =>
-	policyBuilder
-		.AddDefaultPolicy(policy =>
-			policy
+builder.Services.AddCors(options =>
+{
+	options.AddPolicy("AllowAllOrigins",
+		policyBuilder =>
+		{
+			policyBuilder
 				.AllowAnyOrigin()
-				.AllowAnyHeader()
-				.AllowAnyHeader()
-				.AllowAnyMethod()));
+				.AllowAnyMethod()
+				.AllowAnyHeader();
+		});
+});
 
 var app = builder.Build();
 
@@ -144,6 +147,8 @@ app.UseSwagger();
 app.UseSwaggerUI();
 
 app.UseHttpsRedirection();
+
+app.UseCors("AllowAllOrigins");
 
 app.UseAuthentication();
 
