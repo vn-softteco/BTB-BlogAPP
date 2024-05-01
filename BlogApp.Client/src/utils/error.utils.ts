@@ -1,6 +1,7 @@
 import { isAxiosError } from 'axios'
 import { ApiError } from '@/types'
 
+// TODO: Add other errors handling
 export const getApiErrorMsg = (error: unknown): ApiError[] | undefined => {
   if (isAxiosError(error)) {
     if (error.response) {

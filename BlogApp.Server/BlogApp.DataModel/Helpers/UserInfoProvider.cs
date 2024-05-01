@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Http;
 
 namespace BlogApp.DataModel.Helpers;
 
+// TODO: move realization to API level so BAL will not depend on IHttpContextAccessor
 public sealed class UserInfoProvider : IUserInfoProvider
 {
     private readonly IHttpContextAccessor _httpContextAccessor;

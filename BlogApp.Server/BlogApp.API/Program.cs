@@ -120,7 +120,7 @@ services.Configure<RouteOptions>(options =>
 {
 	options.LowercaseUrls = true;
 });
-
+builder.Services.AddExceptionHandler<BlogAppExceptionHandler>();
 builder.Services.AddCors(options =>
 {
 	options.AddPolicy("AllowAllOrigins",
@@ -138,9 +138,13 @@ var app = builder.Build();
 JWTHelper.Configure(configuration);
 
 using var scope = app.Services.CreateScope();
-var dbContext = scope.ServiceProvider
-	.GetRequiredService<BlogAppDbContext>();
+var dbContext = scope.ServiceProvider.GetRequiredService<BlogAppDbContext>();
 dbContext.Database.Migrate();
+
+app.UseExceptionHandler(builder =>
+{
+
+});
 
 app.UseSwagger();
 app.UseSwaggerUI();

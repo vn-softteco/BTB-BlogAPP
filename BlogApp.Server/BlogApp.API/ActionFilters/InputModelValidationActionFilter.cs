@@ -6,7 +6,7 @@ namespace BlogApp.API.ActionFilters;
 
 public sealed class InputModelValidationActionFilter : ActionFilterAttribute
 {
-    public override void OnActionExecuting(ActionExecutingContext  actionContext)
+    public override void OnActionExecuting(ActionExecutingContext actionContext)
     {
         if (!actionContext.ModelState.IsValid)
         {

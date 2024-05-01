@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using BlogApp.Business.DTO.Comments.Requests;
+using BlogApp.Common.Exceptions;
 using BlogApp.DataModel;
 using BlogApp.DataModel.Entities;
 using Microsoft.EntityFrameworkCore;
@@ -20,7 +21,7 @@ public sealed class CommentService : BaseService, ICommentService
             .AsNoTracking()
             .SingleOrDefaultAsync(bp => bp.Id == dto.BlogPostId);
         
-        _ = blogPost ?? throw new ArgumentException("No BlogPosts found with specified Id");
+        _ = blogPost ?? throw new BlogAppException("No BlogPosts found with specified Id");
 
         Context.Comments.Add(new Comment()
         {
@@ -36,7 +37,7 @@ public sealed class CommentService : BaseService, ICommentService
         var comment = await Context.Comments
             .SingleOrDefaultAsync(bp => bp.Id == dto.Id);
 
-        _ = comment ?? throw new ArgumentException("No Comments found with specified Id");
+        _ = comment ?? throw new BlogAppException("No Comments found with specified Id");
 
         comment.Text = dto.Text;
 
@@ -50,6 +51,6 @@ public sealed class CommentService : BaseService, ICommentService
             .Where(x => x.Id == id)
             .ExecuteDeleteAsync();
 
-        if (affectedRows == 0) throw new ArgumentException("No Comments found with specified Id");
+        if (affectedRows == 0) throw new BlogAppException("No Comments found with specified Id");
     }
 }

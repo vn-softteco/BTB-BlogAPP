@@ -3,6 +3,7 @@ using AutoMapper;
 using BlogApp.Business.DTO.Auth.Requests;
 using BlogApp.Business.DTO.Auth.Responses;
 using BlogApp.Business.Helpers;
+using BlogApp.Common.Exceptions;
 using BlogApp.DataModel;
 using BlogApp.DataModel.Entities;
 using Microsoft.AspNetCore.Identity;
@@ -37,7 +38,7 @@ public class AuthService : BaseService, IAuthService
         }
         else
         {
-            throw new Exception("Incorrect password!");
+            throw new BlogAppException("Incorrect password!");
         }
     }
     
@@ -46,7 +47,7 @@ public class AuthService : BaseService, IAuthService
         var userSearchResult = await _userManager.FindByEmailAsync(dto.Email);
         if (userSearchResult is not null)
         {
-            throw new Exception("User already exists!");
+            throw new BlogAppException("User already exists!");
         }
 
         User user = Mapper.Map<User>(dto);

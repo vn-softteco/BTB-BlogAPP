@@ -11,6 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\BlogApp.Common\BlogApp.Common.csproj" />
     <ProjectReference Include="..\BlogApp.DataModel\BlogApp.DataModel.csproj" />
   </ItemGroup>
 

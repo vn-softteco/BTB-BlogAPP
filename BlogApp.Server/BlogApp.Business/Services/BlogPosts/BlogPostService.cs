@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using BlogApp.Business.DTO.BlogPosts.Requests;
 using BlogApp.Business.DTO.BlogPosts.Responses;
+using BlogApp.Common.Exceptions;
 using BlogApp.DataModel;
 using BlogApp.DataModel.Entities;
 using Microsoft.EntityFrameworkCore;
@@ -40,7 +41,7 @@ public sealed class BlogPostService : BaseService, IBlogPostService
             .ThenInclude(bp => bp.CreatedBy)
             .SingleOrDefaultAsync(bp => bp.Id == id);
         
-        _ = blogPost ?? throw new ArgumentException("No BlogPosts found with specified Id");
+        _ = blogPost ?? throw new BlogAppException("No BlogPosts found with specified Id");
 
         return Mapper.Map<GetBlogPostDetailsResponseDto>(blogPost);
     }
@@ -50,7 +51,7 @@ public sealed class BlogPostService : BaseService, IBlogPostService
         var blogPost = await Context.BlogPosts
             .SingleOrDefaultAsync(bp => bp.Id == dto.Id);
 
-        _ = blogPost ?? throw new ArgumentException("No BlogPosts found with specified Id");
+        _ = blogPost ?? throw new BlogAppException("No BlogPosts found with specified Id");
 
         blogPost.Title = dto.Title;
         blogPost.Content = dto.Content;
@@ -65,6 +66,6 @@ public sealed class BlogPostService : BaseService, IBlogPostService
             .Where(x => x.Id == id)
             .ExecuteDeleteAsync();
 
-        if (affectedRows == 0) throw new ArgumentException("No BlogPosts found with specified Id");
+        if (affectedRows == 0) throw new BlogAppException("No BlogPosts found with specified Id");
     }
 }
