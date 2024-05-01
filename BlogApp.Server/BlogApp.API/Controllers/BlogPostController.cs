@@ -1,5 +1,6 @@
 ﻿using System.Net;
 using AutoMapper;
+using BlogApp.API.ActionFilters;
 using BlogApp.API.Models;
 using BlogApp.API.Models.BlogPosts.Requests;
 using BlogApp.API.Models.BlogPosts.Response;
@@ -34,20 +35,11 @@ public sealed class BlogPostController : ControllerBase
     [SwaggerResponse((int)HttpStatusCode.BadRequest, "Validation errors")]
     [SwaggerResponse((int)HttpStatusCode.OK, Type = typeof(ApiResponse<object>))]
     [HttpPost]
+    [InputModelValidationActionFilter]
     public async Task<IActionResult> CreateBlogPost([FromBody] CreateBlogPostRequest request)
     {
         var response = new ApiResponse<object>();
-        
-        if (!ModelState.IsValid)
-        {
-            var errors = ModelState.Values
-                .SelectMany(v => v.Errors)
-                .Select(e => e.ErrorMessage);
-            response.Success = false;
-            response.ErrorMessage = string.Join("; ", errors);
-            return BadRequest(response);
-        }
-        
+
         var dto = _mapper.Map<CreateBlogPostRequestDto>(request);
         await _blogPostService.CreateBlogPostAsync(dto);
 
@@ -98,20 +90,11 @@ public sealed class BlogPostController : ControllerBase
     [SwaggerResponse((int)HttpStatusCode.BadRequest, "Validation errors")]
     [SwaggerResponse((int)HttpStatusCode.OK, Type = typeof(ApiResponse<object>))]
     [HttpPut]
+    [InputModelValidationActionFilter]
     public async Task<IActionResult> UpdateBlogPost([FromBody] UpdateBlogPostRequest request)
     {
         var response = new ApiResponse<object>();
-        
-        if (!ModelState.IsValid)
-        {
-            var errors = ModelState.Values
-                .SelectMany(v => v.Errors)
-                .Select(e => e.ErrorMessage);
-            response.Success = false;
-            response.ErrorMessage = string.Join("; ", errors);
-            return BadRequest(response);
-        }
-        
+
         var dto = _mapper.Map<UpdateBlogPostRequestDto>(request);
         await _blogPostService.UpdateBlogPostAsync(dto);
 

@@ -3,12 +3,13 @@ import { useState } from 'react'
 import { useForm, SubmitHandler, DefaultValues } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
 import { CommentService } from '@/services'
-import { AddCommentFormType } from '@/types'
+import { AddCommentFormType, ApiError } from '@/types'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { AddCommentForm } from '@/components/Auth'
 import { ROUTES } from '@/utils/constants'
 import { useParams } from 'react-router'
 import { DefaultLayout } from '@/layouts/DefaultLayout'
+import { getApiErrorMsg } from '@/utils/error.utils'
 
 const schema = yup.object().shape({
     text: yup
@@ -31,7 +32,7 @@ const AddCommentPage = () => {
       blogPostId: id
     }
   
-    const { handleSubmit, control } = useForm<AddCommentFormType>({
+    const { handleSubmit, control, setError } = useForm<AddCommentFormType>({
         defaultValues,
         resolver: yupResolver(schema),
     })
@@ -41,10 +42,24 @@ const AddCommentPage = () => {
       
       const res = await CommentService.addComment(data)
 
-      if (res.status === 200 && res.data.success) {
-          setLoading(false)
-          navigate(ROUTES.GET_BLOGPOST_BY_ID(id!))
-      }
+      try {
+            if (res.status === 200 && res.data.success) {
+                setLoading(false)
+                navigate(ROUTES.GET_BLOGPOST_BY_ID(id!))
+            }
+        } catch (error) {
+            const errors = getApiErrorMsg(error)
+            if(!!errors){
+                errors.map((err: ApiError) => {
+                    err.name.map((name: string) => {
+                        setError(err.key.toLocaleLowerCase(), {
+                            type: 'manual',
+                            message: name,
+                        })
+                    })
+                })
+            }
+        }
     }
 
     return (

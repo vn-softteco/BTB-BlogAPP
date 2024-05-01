@@ -1,9 +1,9 @@
 import * as yup from 'yup'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { useForm, SubmitHandler, DefaultValues } from 'react-hook-form'
-import { useLocation, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { AuthService, TokenService } from '@/services'
-import { SignInFormType } from '@/types'
+import { SignInFormType, ApiError } from '@/types'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { getApiErrorMsg } from '@/utils/error.utils'
 import { LoginForm } from '@/components/Auth'
@@ -44,29 +44,21 @@ const LoginPage = () => {
           navigate(ROUTES.INITIAL_ROUTE, { replace: true })
         }
 
-        } catch (error) {
-          const errMsg = getApiErrorMsg(error)
-          switch (errMsg) {
-            case 'Incorrect password!':
-              setError('password', {
+      }catch (error) {
+        const errors = getApiErrorMsg(error)
+        if(!!errors){
+          errors.map((err: ApiError) => {
+            err.name.map((name: string) => {
+              setError(err.key.toLocaleLowerCase(), {
                 type: 'manual',
-                message: errMsg,
+                message: name,
               })
-              break
-            case "User doesn't exist!":
-              setError('email', {
-                type: 'manual',
-                message: errMsg,
-              })
-              break
-            default:
-              console.error("smth went wrong")
-              break
-          }
+            })
+          })
+        }
       }
-
-    setLoading(false)
-  }
+      setLoading(false)
+    }
 
   return (
     <>

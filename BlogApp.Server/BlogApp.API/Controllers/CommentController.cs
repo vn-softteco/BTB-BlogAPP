@@ -1,5 +1,6 @@
 ﻿using System.Net;
 using AutoMapper;
+using BlogApp.API.ActionFilters;
 using BlogApp.API.Models;
 using BlogApp.API.Models.Comments.Requests;
 using BlogApp.Business.DTO.Comments.Requests;
@@ -32,19 +33,10 @@ public sealed class CommentController : ControllerBase
     [SwaggerResponse((int)HttpStatusCode.BadRequest, "Validation errors")]
     [SwaggerResponse((int)HttpStatusCode.OK, Type = typeof(ApiResponse<object>))]
     [HttpPost]
+    [InputModelValidationActionFilter]
     public async Task<IActionResult> AddComment([FromBody] AddCommentRequest request)
     {
         var response = new ApiResponse<object>();
-        
-        if (!ModelState.IsValid)
-        {
-            var errors = ModelState.Values
-                .SelectMany(v => v.Errors)
-                .Select(e => e.ErrorMessage);
-            response.Success = false;
-            response.ErrorMessage = string.Join("; ", errors);
-            return BadRequest(response);
-        }
         
         var dto = _mapper.Map<AddCommentRequestDto>(request);
         await _commentService.AddCommentAsync(dto);
@@ -61,19 +53,10 @@ public sealed class CommentController : ControllerBase
     [SwaggerResponse((int)HttpStatusCode.BadRequest, "Validation errors")]
     [SwaggerResponse((int)HttpStatusCode.OK, Type = typeof(ApiResponse<object>))]
     [HttpPut]
+    [InputModelValidationActionFilter]
     public async Task<IActionResult> UpdateComment([FromBody] UpdateCommentRequest request)
     {
         var response = new ApiResponse<object>();
-        
-        if (!ModelState.IsValid)
-        {
-            var errors = ModelState.Values
-                .SelectMany(v => v.Errors)
-                .Select(e => e.ErrorMessage);
-            response.Success = false;
-            response.ErrorMessage = string.Join("; ", errors);
-            return BadRequest(response);
-        }
         
         var dto = _mapper.Map<UpdateCommentRequestDto>(request);
         await _commentService.UpdateCommentAsync(dto);

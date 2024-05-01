@@ -5,7 +5,7 @@ namespace BlogApp.API.Models.BlogPosts.Requests;
 public sealed class CreateBlogPostRequest
 {
     [Required(ErrorMessage = "Content is required")]
-    [MaxLength(length: 1000, ErrorMessage = "Content length has to be less than 10000")]
+    [MaxLength(length: 100, ErrorMessage = "Content length has to be less than 100")]
     public string Title { get; set; }
     
     [Required(ErrorMessage = "Content is required")]

@@ -3,7 +3,7 @@ import { useState } from 'react'
 import { useForm, SubmitHandler, DefaultValues } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
 import { AuthService, TokenService } from '@/services'
-import { SignUpFormType } from '@/types'
+import { SignUpFormType, ApiError } from '@/types'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { getApiErrorMsg } from '@/utils/error.utils'
 import { SignUpForm } from '@/components/Auth'
@@ -37,7 +37,7 @@ const SignUpPage = () => {
     const [loading, setLoading] = useState<boolean>(false)
     const navigate = useNavigate()
   
-    const { handleSubmit, control } = useForm<SignUpFormType>({
+    const { handleSubmit, control, setError } = useForm<SignUpFormType>({
       defaultValues,
       resolver: yupResolver(schema),
     })
@@ -53,9 +53,16 @@ const SignUpPage = () => {
         }
 
       } catch (error) {
-        const errMsg = getApiErrorMsg(error)
-        switch (errMsg) {
-          // TODO: Handle errors
+        const errors = getApiErrorMsg(error)
+        if(!!errors){
+          errors.map((err: ApiError) => {
+            err.name.map((name: string) => {
+              setError(err.key.toLocaleLowerCase(), {
+                type: 'manual',
+                message: name,
+              })
+            })
+          })
         }
       }
 

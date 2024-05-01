@@ -40,3 +40,8 @@ export interface ApiResponse<T> {
   success: boolean
   data: T
 }
+
+export type ApiError = {
+  key: string,
+  name: string[]
+}

@@ -1,5 +1,6 @@
 using System.Net;
 using AutoMapper;
+using BlogApp.API.ActionFilters;
 using BlogApp.API.Models;
 using BlogApp.API.Models.Auth.Requests;
 using BlogApp.API.Models.Auth.Responses;
@@ -34,20 +35,11 @@ public sealed class AuthController : ControllerBase
     [SwaggerResponse((int)HttpStatusCode.BadRequest, "User Exist, Password not following the rules or incorrect")]
     [SwaggerResponse((int)HttpStatusCode.OK, Type = typeof(ApiResponse<string>))]
     [HttpPost("register")]
+    [InputModelValidationActionFilter]
     public async Task<IActionResult> Register([FromBody] RegisterRequest model)
     {
         ApiResponse<string> response = new ApiResponse<string>();
-        
-        if (!ModelState.IsValid)
-        {
-            var errors = ModelState.Values
-                .SelectMany(v => v.Errors)
-                .Select(e => e.ErrorMessage);
-            response.Success = false;
-            response.ErrorMessage = string.Join("; ", errors);
-            return BadRequest(response);
-        }
-        
+
         var dto = _mapper.Map<RegisterRequestDto>(model);
         var result = await _authService.Register(dto);
 
@@ -70,13 +62,9 @@ public sealed class AuthController : ControllerBase
     [SwaggerResponse((int)HttpStatusCode.BadRequest)]
     [SwaggerResponse((int)HttpStatusCode.OK, Type = typeof(ApiResponse<LoginResponse>))]
     [HttpPost("login")]
+    [InputModelValidationActionFilter]
     public async Task<IActionResult> LoginAsync([FromBody] LoginRequest request)
     {
-        if (!ModelState.IsValid)
-        {
-            throw new Exception("Invalid client request");
-        }
-
         ApiResponse<LoginResponse> response = new ApiResponse<LoginResponse>();
         var dto = _mapper.Map<LoginRequestDto>(request);
         var result = await _authService.LoginUserAsync(dto);
