@@ -38,7 +38,7 @@ public sealed class BlogPostService : BaseService, IBlogPostService
             .Include(bp => bp.CreatedBy)
             .Include(bp => bp.Comments)
             .ThenInclude(bp => bp.CreatedBy)
-            .FirstOrDefaultAsync(bp => bp.Id == id);
+            .SingleOrDefaultAsync(bp => bp.Id == id);
         
         _ = blogPost ?? throw new ArgumentException("No BlogPosts found with specified Id");
 
@@ -48,7 +48,7 @@ public sealed class BlogPostService : BaseService, IBlogPostService
     public async Task UpdateBlogPostAsync(UpdateBlogPostRequestDto dto)
     {
         var blogPost = await Context.BlogPosts
-            .FirstOrDefaultAsync(bp => bp.Id == dto.Id);
+            .SingleOrDefaultAsync(bp => bp.Id == dto.Id);
 
         _ = blogPost ?? throw new ArgumentException("No BlogPosts found with specified Id");
 

@@ -18,7 +18,7 @@ public sealed class CommentService : BaseService, ICommentService
     {
         var blogPost = await Context.BlogPosts
             .AsNoTracking()
-            .FirstOrDefaultAsync(bp => bp.Id == dto.BlogPostId);
+            .SingleOrDefaultAsync(bp => bp.Id == dto.BlogPostId);
         
         _ = blogPost ?? throw new ArgumentException("No BlogPosts found with specified Id");
 
@@ -34,7 +34,7 @@ public sealed class CommentService : BaseService, ICommentService
     public async Task UpdateCommentAsync(UpdateCommentRequestDto dto)
     {
         var comment = await Context.Comments
-            .FirstOrDefaultAsync(bp => bp.Id == dto.Id);
+            .SingleOrDefaultAsync(bp => bp.Id == dto.Id);
 
         _ = comment ?? throw new ArgumentException("No Comments found with specified Id");
 
