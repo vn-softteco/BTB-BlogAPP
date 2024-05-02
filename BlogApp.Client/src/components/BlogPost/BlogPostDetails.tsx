@@ -32,7 +32,6 @@ const styles: Styles = {
         display: 'flex',
         justifyContent: 'end',
         mt: 1,
-        mr: 2
     },
     infotext: {
         color: red
@@ -40,7 +39,6 @@ const styles: Styles = {
     actionButton: {
         display: 'flex',
         justifyContent: 'end',
-        mr: 2
     },
     commentGrid: {
         mt: 10,
@@ -50,6 +48,8 @@ const styles: Styles = {
         alignSelf: 'center',
     },
 }
+
+// TODO: Add navigation to previous page
 
 const BlogPostDetailsComponent = (blogPost: BlogPostDetails): JSX.Element => {
     const navigate = useNavigate()

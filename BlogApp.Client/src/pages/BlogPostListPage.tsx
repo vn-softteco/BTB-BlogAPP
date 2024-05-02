@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import { BlogPostService } from '@/services'
 import { useQueries } from '@tanstack/react-query'
 import { BlogPostListView } from '@/types'
-import { Box, Grid, Button } from '@mui/material'
+import { Box, Grid, Button, CircularProgress } from '@mui/material'
 import { BlogPostListItemCard } from '@/components/BlogPost'
 import { useNavigate } from 'react-router-dom'
 import { ROUTES } from '@/utils/constants'
@@ -16,15 +16,16 @@ import { Styles } from '@/types'
 
 const styles: Styles = {
   mainBox: {
-      display: 'flex',
-      flexDirection: 'column'
+    mt: 15,
+    display: 'flex',
+    flexDirection: 'column'
   },
   cardsBox: {
     maxWidth: '80%',
     alignSelf: 'center',
   },
   addButton: {
-    width: '80%',
+    mb: 5,
     display: 'flex',
     alignSelf: 'center',
     justifyContent: 'end',
@@ -41,6 +42,7 @@ const styles: Styles = {
 
 const BlogPostsPage = (): JSX.Element => {
   const navigate = useNavigate()
+  const [loading, setLoading] = useState(true);
   const [blogPostsData, setBlogPostsData] = useState<BlogPostsPageData>({
       blogPosts: []
   })    
@@ -58,6 +60,7 @@ const BlogPostsPage = (): JSX.Element => {
     
 
   useEffect(() => {
+      setLoading(isBlogPostsLoaded)
       if (allBlogPosts?.length) {
           setBlogPostsData({blogPosts: allBlogPosts})
       }
@@ -67,22 +70,37 @@ const BlogPostsPage = (): JSX.Element => {
     <DefaultLayout>
       <Box sx={styles.mainBox}>
         <Box sx={styles.cardsBox} >
-            <Grid sx={styles.grid} container spacing={1.5}>
-              {blogPostsData.blogPosts.map((blogPost: BlogPostListView) => (
-                <Box key={blogPost.id} sx={styles.itemCard}>
-                  <BlogPostListItemCard {...blogPost}></BlogPostListItemCard>
-                </Box>
-              ))}
-            </Grid>
+          { loading ?
+            <CircularProgress />
+            :
+            <>
+              <Grid sx={styles.grid} container spacing={1.5}>
+                { blogPostsData.blogPosts.length !== 0 ?
+                  <>
+                    { 
+                      blogPostsData.blogPosts.map((blogPost: BlogPostListView) => (
+                        <Box key={blogPost.id} sx={styles.itemCard}>
+                          <BlogPostListItemCard {...blogPost}></BlogPostListItemCard>
+                        </Box>)
+                      )
+                    }
+                  </>
+                  : 
+                  <h1>No BlogPosts</h1>
+                }
+              </Grid>
+              <Box sx={styles.addButton}>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  onClick={() => navigate(ROUTES.ADD_BLOGPOST)}>
+                    Add Post
+                </Button>
+              </Box>
+            </>           
+          }
         </Box>
-        <Box sx={styles.addButton}>
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={() => navigate(ROUTES.ADD_BLOGPOST)}>
-              Add Post
-          </Button>
-        </Box>
+        
       </Box>
     </DefaultLayout>
   );

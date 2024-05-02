@@ -13,6 +13,9 @@ import { BlogPostListView } from '@/types'
 import { Styles } from '@/types'
 
 const styles: Styles = {
+  card: {
+    mt: 1
+  },
   content: {
     display: 'block',
     lineClamp: '10',
@@ -26,7 +29,7 @@ const BlogPostListItemCard = (blogPost: BlogPostListView): JSX.Element => {
     const navigate = useNavigate()
   
     return (
-      <Card >
+      <Card sx={styles.card}>
         <CardHeader title={blogPost.title} />
   
         <CardContent >  

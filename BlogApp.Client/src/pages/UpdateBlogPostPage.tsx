@@ -20,6 +20,7 @@ const schema = yup.object().shape({
       .max(1000, "Content must be no more than 1000 characters")
   })
   
+// TODO: Add navigation to previous page
 
 const UpdateBlogPostPage = () => {
     const [loading, setLoading] = useState<boolean>(false)

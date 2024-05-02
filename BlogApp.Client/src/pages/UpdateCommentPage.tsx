@@ -21,6 +21,8 @@ const schema = yup.object().shape({
     id: yup.string().required()
   })
 
+// TODO: Add navigation to previous page
+
 const AddOrUpdateCommentPage = () => {
     const [loading, setLoading] = useState<boolean>(false)
     const navigate = useNavigate()

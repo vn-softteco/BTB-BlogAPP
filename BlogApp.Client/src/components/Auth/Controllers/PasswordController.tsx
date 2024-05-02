@@ -12,7 +12,7 @@ interface PasswordController<T extends object> {
   small?: boolean
 }
 
-// TODO: add password visibility
+// TODO: hide password
 
 const PasswordController = <T extends object>({
   label,

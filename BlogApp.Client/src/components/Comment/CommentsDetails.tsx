@@ -23,12 +23,10 @@ const styles: Styles = {
         display: 'flex',
         justifyContent: 'end',
         mt: 1,
-        mr: 2
     },
     actionButton: {
         display: 'flex',
         justifyContent: 'end',
-        mr: 2
     }
 }
 
