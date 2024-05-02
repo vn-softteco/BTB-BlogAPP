@@ -1,5 +1,6 @@
 using System.Text;
 using BlogApp.API;
+using BlogApp.API.Middleware;
 using BlogApp.Business;
 using BlogApp.Business.Helpers;
 using BlogApp.Business.Services.Auth;
@@ -85,16 +86,14 @@ services.AddTransient<IAuthService, AuthService>();
 
 services.AddHttpContextAccessor();
 
-// Add services to the container.
-
+builder.Services.AddTransient<ApiCallsLoggingMiddleware>();
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+
 services.AddEndpointsApiExplorer();
 services.AddSwaggerGen(options =>
 {
 	options.SwaggerDoc("v1", new OpenApiInfo { Title = "BlogApp API", Version = "v1" });
 
-	// Include the following lines to make Swagger prompt for authorization
 	options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
 	{
 		Description = "JWT Authorization header using the Bearer scheme.",
@@ -152,6 +151,8 @@ app.UseSwaggerUI();
 app.UseHttpsRedirection();
 
 app.UseCors("AllowAllOrigins");
+
+app.UseMiddleware<ApiCallsLoggingMiddleware>();
 
 app.UseAuthentication();
 

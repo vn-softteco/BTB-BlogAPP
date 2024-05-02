@@ -24,8 +24,4 @@
     <ProjectReference Include="..\BlogApp.Common\BlogApp.Common.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Middleware\" />
-  </ItemGroup>
-
 </Project>
