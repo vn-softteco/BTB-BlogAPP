@@ -17,7 +17,8 @@ const styles: Styles = {
         justifyContent: 'center',
     },
     card: {
-        width: '80%'
+        width: '80%',
+        mt: 2
     },
     info: {
         display: 'flex',
@@ -49,15 +50,13 @@ const CommentDetails = (props: CommentDetailProps): JSX.Element => {
                 <CardActions sx={styles.actionButton}>
                     <Button
                         variant='contained'
-                        color='error'
-                        fullWidth                
+                        color='error'                                        
                         onClick={() => props.handleCommentDelete(props.comment.id)}
                     >
                         Delete
                     </Button>
                     <Button
                         variant="contained"
-                        fullWidth
                         color='secondary'     
                         onClick={() => navigate(ROUTES.ROUTE_UPDATE_COMMENT(props.blogPostId), {state : { id: props.comment.id, text: props.comment.text}})}
                     >

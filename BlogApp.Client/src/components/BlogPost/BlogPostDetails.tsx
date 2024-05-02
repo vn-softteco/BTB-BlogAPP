@@ -20,12 +20,11 @@ const styles: Styles = {
     mainbox: {
         display: 'flex',
         flexDirection: 'column',
-        mt: 10,
         mb: 5,
     },
     blogpost: {
         display: 'inline',
-        width: '80%',
+        width: '100%',
         alignSelf: 'center',
     },
     info: {

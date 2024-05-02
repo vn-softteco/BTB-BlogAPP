@@ -3,12 +3,13 @@ import { useState } from 'react'
 import { useForm, SubmitHandler, DefaultValues } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
 import { BlogPostService } from '@/services'
-import { AddBlogPostFormType, ApiError } from '@/types'
+import { AddBlogPostFormType, ApiError, Styles } from '@/types'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { getApiErrorMsg } from '@/utils/error.utils'
 import { ROUTES } from '@/utils/constants'
 import { AddBlogPostForm } from '@/components/Auth'
 import { DefaultLayout } from '@/layouts/DefaultLayout'
+import { Box, Button} from '@mui/material'
 
 const schema = yup.object().shape({
     title: yup
@@ -18,9 +19,16 @@ const schema = yup.object().shape({
     content: yup.string()
       .required('content is required')
       .max(5000, "Content must be no more than 5000 characters")
-  })
-  
-// TODO: Add navigation to previous page
+})
+
+const styles: Styles = {
+    mainbox: {
+        mt: 10,
+    },
+    goBackButton: {
+        mb: 2,
+    }
+}
 
 const AddBlogPostPage = () => {
     const [loading, setLoading] = useState<boolean>(false)
@@ -64,12 +72,23 @@ const AddBlogPostPage = () => {
 
   return (
     <DefaultLayout>
-        <AddBlogPostForm
-            control={control}
-            handleSubmit={handleSubmit}
-            onSubmit={onSubmit}
-            loading={loading}
-        />
+        <Box>
+          <Button
+              sx={styles.goBackButton}
+              variant="contained"
+              color='primary'     
+              onClick={() => navigate(ROUTES.GET_BLOGPOSTs)}
+          >
+              Go back
+          </Button>
+          
+          <AddBlogPostForm
+              control={control}
+              handleSubmit={handleSubmit}
+              onSubmit={onSubmit}
+              loading={loading}
+          />
+        </Box>
     </DefaultLayout>
   )
 }

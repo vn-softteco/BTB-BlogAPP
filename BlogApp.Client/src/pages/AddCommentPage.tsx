@@ -3,13 +3,14 @@ import { useState } from 'react'
 import { useForm, SubmitHandler, DefaultValues } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
 import { CommentService } from '@/services'
-import { AddCommentFormType, ApiError } from '@/types'
+import { AddCommentFormType, ApiError, Styles } from '@/types'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { AddCommentForm } from '@/components/Auth'
 import { ROUTES } from '@/utils/constants'
 import { useParams } from 'react-router'
 import { DefaultLayout } from '@/layouts/DefaultLayout'
 import { getApiErrorMsg } from '@/utils/error.utils'
+import { Box, Button} from '@mui/material'
 
 const schema = yup.object().shape({
     text: yup
@@ -21,7 +22,14 @@ const schema = yup.object().shape({
         .required()
     })
 
-// TODO: Add navigation to previous page
+const styles: Styles = {
+    mainbox: {
+        mt: 10,
+    },
+    goBackButton: {
+        mb: 2,
+    }
+}
 
 const AddCommentPage = () => {
     const [loading, setLoading] = useState<boolean>(false)
@@ -65,12 +73,22 @@ const AddCommentPage = () => {
 
     return (
       <DefaultLayout>
-          <AddCommentForm
-              control={control}
-              handleSubmit={handleSubmit}
-              onSubmit={onSubmit}
-              loading={loading}
-          />
+        <Box>
+            <Button
+                sx={styles.goBackButton}
+                variant="contained"
+                color='primary'     
+                onClick={() => navigate(ROUTES.GET_BLOGPOST_BY_ID(id!))}
+            >
+                Go back
+            </Button>
+            <AddCommentForm
+                control={control}
+                handleSubmit={handleSubmit}
+                onSubmit={onSubmit}
+                loading={loading}
+            />
+          </Box>
       </DefaultLayout>
     )
 }
