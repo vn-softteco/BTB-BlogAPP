@@ -14,6 +14,7 @@ IF OBJECT_ID('dbo.CalculateLoanTableWithRecycle') IS NOT NULL
   DROP PROCEDURE dbo.CalculateLoanTableWithRecycle
 GO
 
+-- Calculates total monthly loan payment
 CREATE FUNCTION dbo.CalculateMonthlyTotal
 (
     @Rate DECIMAL(19, 12),
@@ -34,6 +35,7 @@ BEGIN
 END;
 GO
 
+-- Calculates the monthly principal repayment
 CREATE FUNCTION dbo.CalculateMonthlyLoanPayment
 (
     @Rate DECIMAL(19, 12),
@@ -50,6 +52,7 @@ BEGIN
 END;
 GO
 
+-- Returns a table row of loan payment details
 CREATE FUNCTION dbo.CalculateRow
 (
     @Rate DECIMAL(19, 12),
@@ -68,6 +71,7 @@ RETURN
 )
 GO
 
+-- Produces a full loan payment table for a loan with two periods
 CREATE PROCEDURE dbo.CalculateLoanTableWithRecycle @Principal DECIMAL(10, 2)
 AS
 SET NOCOUNT ON;
@@ -80,7 +84,7 @@ DECLARE @SecondPeriodDuration INT = 48;
 WITH MonthlyData (PaymentNumber, MonthlyPayment, MonthlyInterestPayment, MonthlyLoanPayment, RemainingLoan)
 AS
 (
-    SELECT 1, *
+    SELECT 1 as PaymentNumber, MonthlyPayment, MonthlyInterestPayment, MonthlyLoanPayment, RemainingLoan
     FROM dbo.CalculateRow(
         @FirstPeriodRate,
         @Principal,
