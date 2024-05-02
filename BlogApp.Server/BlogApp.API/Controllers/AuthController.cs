@@ -41,7 +41,7 @@ public sealed class AuthController : ControllerBase
         ApiResponse<string> response = new ApiResponse<string>();
 
         var dto = _mapper.Map<RegisterRequestDto>(model);
-        var result = await _authService.Register(dto);
+        var result = await _authService.RegisterAsync(dto);
 
         if (result.Succeeded)
         {

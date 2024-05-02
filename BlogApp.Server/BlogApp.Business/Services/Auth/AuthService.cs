@@ -42,7 +42,7 @@ public class AuthService : BaseService, IAuthService
         }
     }
     
-    public async Task<IdentityResult> Register(RegisterRequestDto dto)
+    public async Task<IdentityResult> RegisterAsync(RegisterRequestDto dto)
     {
         var userSearchResult = await _userManager.FindByEmailAsync(dto.Email);
         if (userSearchResult is not null)

@@ -7,5 +7,5 @@ namespace BlogApp.Business.Services.Auth;
 public interface IAuthService
 {
     Task<LoginResponseDto> LoginUserAsync(LoginRequestDto request);
-    Task<IdentityResult> Register(RegisterRequestDto dto);
+    Task<IdentityResult> RegisterAsync(RegisterRequestDto dto);
 }
