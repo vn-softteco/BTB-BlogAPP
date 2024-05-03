@@ -45,7 +45,5 @@ npm run dev
 ---
 
 ## Part 3: SQL scripts
-Stored produre SQL script can be found at "Sql-Scripts" folder
-The BTB-SpitzerTableScript.sql file is responsible for creating the necessary procedures and preparing the solution.
-BTB-SpitzerTableResult.sql will yield the results of the operation.
-
+Stored produre SQL script can be found in root folder
+The ``AmortizationLoanScheduleProcedure.sql`` file is responsible for creating the necessary procedures and will run it and disply result.
